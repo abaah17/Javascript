@@ -1,52 +1,49 @@
-// Select color input
-// Select size input
-var height, width;
+// make grid function
 
-// When size is submitted by the user, call makeGrid()
-// var on_Submit = document.getElementById('sx'); 
-// document.getElementById('sx').onclick = function() {
-//    alert("button was clicked");
-// }​
+function makeGrid(height,width){
+	var canvas = document.getElementById('sizePicker');
+	var grid_cells = '';
 
+	// creating the grid canvas(h X w) matrix of the user input
+	for (var x = 1; x <= height; x++) {
+		grid_cells += '<tr class="cell-r' + x + '"></tr>';
+		for(var y = 1; y<= width;y++){ //looping over the clss
+			grid_cells += '<td class="cell"  '+ x + 'cell_xy' + y + '"></td>';
+		}
+	}
 
-function clik() {
-	// event.preventDefault();
-	var height = document.getElementById('inputHeight').value();
-	var width  = document.getElementById('inputWidth').value();
-	alert('Height: '+height +" "+"Width: "+width);
+	//adding the canvas grid to the table element
+	canvas.innerHTML = grid_cells;
+	cell_click();
+}
+	
 
-	// body...
+function form_submit() {
+	event.preventDefault();
+	//get values of height and width from the user input
+	var height = document.getElementById('inputHeight').value;
+	var width = document.getElementById('inputWidth').value;
+	makeGrid(height,width);
 }
 
 
-// on_Submit.addEventListener('click',function (event){
-// 	event.preventDefault();
-// 	height = document.getElementById('inputHeight').value();
-// 	width  = document.getElementById('inputWidth').value();
-// 	makeGrid(height,width);
-// 	console.log('Height: '+height +" "+"Width: "+width);
+function cell_click() {
+	var cells = document.getElementByClassName('cell');
+	for(var i = 0; i < cells.length;i++){
+		cells[i].addEventListener('click',function(event){
+			var clickedCell = event.target;
+			clickedCell.style.backgroundColor = selectedColor;
+		})
+}
+}
 
-	
-// })
-
-
-// function makeGrid(x,y) {
-// 	var tag =document.getElementbyTag('tr')
-// 	tag.remove();
-
-// 	// Your code goes here!
-// 	for (var r = 1; i <= x; i++) {
-// 	pixel_Canvas= document.getElementById('pixelCanvas');
-// 	pixelCanvas.append['<tr id=table'+1+'></tr>'];
-// 		for (var c = 1; c<=y; c++) {
-// 			pxtable = document.getElementById('table'+i);
-// 			pxtable.append['<td></td>'];
-// 		}
-// 	}
-
-// }
+var colorPicker = document.getElementById("colorPicker");
+var selectedColour = colorPicker.value; 
+colorPicker.addEventListener("input", function() {
+  selectedColor = colorPicker.value;
+  }, false);
 
 
-
-
-
+document.getElementById('sizePicker').onsubmit = function(){
+	form_submit();
+}
